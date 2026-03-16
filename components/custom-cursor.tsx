@@ -27,14 +27,12 @@ function DataDebris({ x, y }: { x: MotionValue<number>; y: MotionValue<number> }
   }, []);
 
   return (
-    <div className="absolute inset-0 pointer-events-none">
+    <motion.div className="absolute pointer-events-none" style={{ x, y }}>
       {particles.map((p) => (
         <motion.div
           key={p.id}
           className="absolute text-[8px] font-mono text-blue-500/40 select-none"
           style={{
-            x,
-            y,
             left: p.offsetX,
             top: p.offsetY,
           }}
@@ -52,7 +50,7 @@ function DataDebris({ x, y }: { x: MotionValue<number>; y: MotionValue<number> }
           {p.char}
         </motion.div>
       ))}
-    </div>
+    </motion.div>
   );
 }
 
@@ -70,11 +68,6 @@ export default function CustomCursor() {
 
   const [magneticPos, setMagneticPos] = useState({ x: 0, y: 0 });
   const [isMagnetic, setIsMagnetic] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     if (prefersReducedMotion) return undefined;
@@ -222,7 +215,7 @@ export default function CustomCursor() {
     }
   }, [mouseX, mouseY, prefersReducedMotion]);
 
-  if (!isMounted || prefersReducedMotion) return null;
+  if (prefersReducedMotion) return null;
 
   return (
     <>
